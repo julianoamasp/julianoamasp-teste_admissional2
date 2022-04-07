@@ -1,0 +1,68 @@
+<h1>Vendas</h1>
+
+<div *ngIf="selecionado && acao == 'editar'">
+    <div class="editar-container">
+        <div>Edit Nota</div>
+        <div class="container-form">
+            <div>
+                <label>Ordem: {{ selecionado.ordem }}</label>
+            </div>
+            <div>
+                <label>Ordem: {{ selecionado.quantidade }}</label>
+            </div>
+
+            <div>
+                <label>Usuário: {{ selecionado.usuarioObj.nome }}</label>
+            </div>
+            <div>
+                <label>Produto: {{ selecionado.produtoObj.nome }}</label>
+            </div>
+        </div>
+        <h1>{{ (selecionado.produtoObj.preco * selecionado.quantidade).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</h1>
+        <div>
+            <div>
+                <label>Status: {{ selecionado.status }}</label><br><br>
+                <label>Alterar</label>,br.
+                <select [(ngModel)]="selecionado.status">
+                    <option value="Paga">Paga</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Entregue">Entregue</option>
+                    <option value="A Caminho">A Caminho</option>
+                    <option value="Cancelada">Cancelada</option>
+                    <option value="Estraviada">Estraviada</option>
+                </select>
+            </div>
+        </div>
+        <div class="editar-container-acoes">
+            <button style="background-color: green;color: #ffff;" (click)="selecionado = null; acao = ''">Cancelar</button>
+            <button style="background-color: #ffc107;color: #ffff;" (click)="atualizar()">Atualizar</button>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <table *ngIf="vendas.length > 0">
+        <tr>
+            <th>Id</th>
+            <th>Ordem</th>
+            <th>Qauntidade</th>
+            <th>Status</th>
+            <th>Produto</th>
+            <th>Usuário</th>
+            <th>Preço Unidade</th>
+            <th>Total</th>
+        </tr>
+        <tr *ngFor="let venda of vendas; let i = index" (click)="selecionado = venda; acao = 'editar'">
+            <td>{{ venda.id }}</td>
+            <td>{{ venda.ordem }}</td>
+            <td>{{ venda.quantidade }}</td>
+            <td>{{ venda.status }}</td>
+            <td>{{ venda.produtoObj.nome }}</td>
+            <td>{{ venda.usuarioObj.nome }}</td>
+            <td>{{ (venda.produtoObj.preco).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</td>
+            <td>{{ (venda.produtoObj.preco * venda.quantidade).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</td>
+        </tr>
+    </table>
+    <div *ngIf="vendas.length == 0">Sem registros</div>
+</div>

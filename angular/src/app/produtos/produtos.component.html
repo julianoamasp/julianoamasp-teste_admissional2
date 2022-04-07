@@ -1,0 +1,99 @@
+<h1>Produtos <button *ngIf="categorias.length > 0" (click)="selecionado = null; acao = 'adicionar'">+</button></h1>
+
+
+<div *ngIf="acao == 'adicionar'">
+    <div *ngIf="categorias.length == 0">
+        Nenhuma categoria encontrada!
+    </div>
+    <div *ngIf="categorias.length > 0">
+        <div class="editar-container">
+            <div class="container-form">
+                <div style="width: 100%;">
+                    <div>
+                        <label>Categorias</label>
+                        <div>
+                            <select [(ngModel)]="rascunho.categoriaId">
+                            <option *ngFor="let categoria of categorias; let i = index" value="{{ categoria.id }}" selected>{{ categoria.nome }}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label>Nome</label>
+                    <div><input type="text" [(ngModel)]="rascunho.nome" /></div>
+                </div>
+                <div>
+                    <label>Descrição</label>
+                    <div><input type="text" [(ngModel)]="rascunho.descricao" /></div>
+                </div>
+                <div>
+                    <label>Preço</label>
+                    <div><input type="number" [(ngModel)]="rascunho.preco" /></div>
+                </div>
+                <div>
+                    <label>Estoque</label>
+                    <div><input type="number" [(ngModel)]="rascunho.estoque" /></div>
+                </div>
+
+            </div>
+            <div class="editar-container-acoes">
+                <button style="background-color: green;color: #ffff;" (click)="limparRascunho(); acao = ''">Cancelar</button>
+                <button style="background-color: #ffc107;color: #ffff;" (click)="adicionar()">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="selecionado && acao == 'editar'">
+    <div class="editar-container">
+        <div>Edit {{ selecionado.nome }}</div>
+        <div class="container-form">
+            <div>
+                <label>Nome</label>
+                <div><input type="text" [(ngModel)]="selecionado.nome" /></div>
+            </div>
+            <div>
+                <label>Descrição</label>
+                <div><input type="text" [(ngModel)]="selecionado.descricao" /></div>
+            </div>
+            <div>
+                <label>Preço</label>
+                <div><input type="number" [(ngModel)]="selecionado.preco" /></div>
+            </div>
+            <div>
+                <label>Estoque</label>
+                <div><input type="number" [(ngModel)]="selecionado.estoque" /></div>
+            </div>
+
+        </div>
+        <div class="editar-container-acoes">
+            <button style="background-color: green;color: #ffff;" (click)="selecionado = null; acao = ''">Cancelar</button>
+            <button style="background-color: red;color: #ffff;" (click)="remover()">Remover</button>
+            <button style="background-color: #ffc107;color: #ffff;" (click)="atualizar()">Atualizar</button>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <table *ngIf="produtos.length > 0">
+        <tr>
+            <th>Id</th>
+            <th>Categoria</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+        </tr>
+        <tr *ngFor="let produto of produtos; let i = index" (click)="selecionado = produto; acao = 'editar'">
+            <td>{{ produto.id }}</td>
+            <td>{{ pegarNomeCategoriaPorId(produto.categoriaId) }}</td>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.descricao }}</td>
+            <td>{{ produto.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</td>
+            <td>{{ produto.estoque }} uni</td>
+        </tr>
+    </table>
+    <div *ngIf="produtos.length == 0">Sem registros</div>
+</div>

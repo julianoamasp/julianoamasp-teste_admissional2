@@ -1,0 +1,62 @@
+<h1>Categorias <button (click)="selecionado = null; acao = 'adicionar'">+</button></h1>
+
+
+<div *ngIf="acao == 'adicionar'">
+    <div class="editar-container">
+        <div>Adicionar</div>
+        <div class="container-form">
+            <div>
+                <label>Nome</label>
+                <div><input type="text" [(ngModel)]="rascunho.nome" /></div>
+            </div>
+            <div>
+                <label>Descrição</label>
+                <div><input type="text" [(ngModel)]="rascunho.descricao" /></div>
+            </div>
+
+        </div>
+        <div class="editar-container-acoes">
+            <button style="background-color: green;color: #ffff;" (click)="limparRascunho(); acao = ''">Cancelar</button>
+            <button style="background-color: #ffc107;color: #ffff;" (click)="adicionar()">Adicionar</button>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="selecionado && acao == 'editar'">
+    <div class="editar-container">
+        <div>Edit {{ selecionado.nome }}</div>
+        <div class="container-form">
+            <div>
+                <label>Nome</label>
+                <div><input type="text" [(ngModel)]="selecionado.nome" /></div>
+            </div>
+            <div>
+                <label>Descrição</label>
+                <div><input type="text" [(ngModel)]="selecionado.descricao" /></div>
+            </div>
+        </div>
+        <div class="editar-container-acoes">
+            <button style="background-color: green;color: #ffff;" (click)="selecionado = null; acao = ''">Cancelar</button>
+            <button style="background-color: red;color: #ffff;" (click)="remover()">Remover</button>
+            <button style="background-color: #ffc107;color: #ffff;" (click)="atualizar()">Atualizar</button>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <table *ngIf="categorias.length > 0">
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+        </tr>
+        <tr *ngFor="let categoria of categorias; let i = index" (click)="selecionado = categoria; acao = 'editar'">
+            <td>{{ categoria.id }}</td>
+            <td>{{ categoria.nome }}</td>
+            <td>{{ categoria.descricao }}</td>
+        </tr>
+    </table>
+    <div *ngIf="categorias.length == 0">Sem registros</div>
+</div>

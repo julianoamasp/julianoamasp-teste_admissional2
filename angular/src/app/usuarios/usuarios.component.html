@@ -1,0 +1,62 @@
+<h1>Usuários <button (click)="selecionado = null; acao = 'adicionar'">+</button></h1>
+
+
+<div *ngIf="acao == 'adicionar'">
+    <div class="editar-container">
+        <div>Adicionar</div>
+        <div class="container-form">
+            <div>
+                <label>Nome</label>
+                <div><input type="text" [(ngModel)]="rascunho.nome" /></div>
+            </div>
+            <div>
+                <label>Email</label>
+                <div><input type="text" [(ngModel)]="rascunho.email" /></div>
+            </div>
+
+        </div>
+        <div class="editar-container-acoes">
+            <button style="background-color: green;color: #ffff;" (click)="limparRascunho(); acao = ''">Cancelar</button>
+            <button style="background-color: #ffc107;color: #ffff;" (click)="adicionar()">Adicionar</button>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="selecionado && acao == 'editar'">
+    <div class="editar-container">
+        <div>Edit {{ selecionado.nome }}</div>
+        <div class="container-form">
+            <div>
+                <label>Nome</label>
+                <div><input type="text" [(ngModel)]="selecionado.nome" /></div>
+            </div>
+            <div>
+                <label>Email</label>
+                <div><input type="text" [(ngModel)]="selecionado.email" /></div>
+            </div>
+        </div>
+        <div class="editar-container-acoes">
+            <button style="background-color: green;color: #ffff;" (click)="selecionado = null; acao = ''">Cancelar</button>
+            <button style="background-color: red;color: #ffff;" (click)="remover()">Remover</button>
+            <button style="background-color: #ffc107;color: #ffff;" (click)="atualizar()">Atualizar</button>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <table *ngIf="usuarios.length > 0">
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Email</th>
+        </tr>
+        <tr *ngFor="let usuario of usuarios; let i = index" (click)="selecionado = usuario; acao = 'editar'">
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.email }}</td>
+        </tr>
+    </table>
+    <div *ngIf="usuarios.length == 0">Sem registros</div>
+</div>
